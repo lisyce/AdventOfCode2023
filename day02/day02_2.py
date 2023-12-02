@@ -1,8 +1,5 @@
 from day02_1 import cube_nums, is_possible
 
-
-
-
 if __name__ == "__main__":
     with open("input.txt") as f:
         total = 0
