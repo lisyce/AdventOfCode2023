@@ -33,8 +33,21 @@ class RangeDict():
                         break
                 
                 if fit_range is None:
-                    result.append((left, count))
-                    break
+                    # does a range start somewhere in the middle?
+                    found = False
+                    for r in self.ranges:
+                        if r[1] >= left and r[1] < left + count:
+                            # found one
+                            found = True
+                            amt_outside_range = r[1] - left
+                            result.append((left, amt_outside_range)) # outside range
+                            left += amt_outside_range
+                            start = left
+                            count -= amt_outside_range
+
+                    if not found:
+                        result.append((left, count))
+                        break
                 else:
                     # how much of it fits into the range?
                     amount_that_fits = (fit_range[2] + fit_range[1]) - left
