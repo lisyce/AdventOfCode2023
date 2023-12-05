@@ -1,7 +1,7 @@
-from day05_1 import parse_transitions, get_min_transition
+from day05_1 import parse_transitions
 
 if __name__ == "__main__":
-    filename = "input_test.txt"
+    filename = "input.txt"
     seed_ranges = []
     transitions = parse_transitions(filename)
 
