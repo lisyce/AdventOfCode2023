@@ -1,4 +1,3 @@
-
 def parse_graph(filename: str) -> dict[str, tuple[int, int]]:
     graph = {}
     with open(filename) as f:
