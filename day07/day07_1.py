@@ -36,6 +36,19 @@ def get_hand_type(hand: str) -> HandTypes:
     return HandTypes.HIGH_CARD
 
 
+def by_rank_comparator(x: str, y: str, card_ranks: str) -> int:
+    first_diff_idx = 0
+    while x[first_diff_idx] == y[first_diff_idx]:
+        first_diff_idx += 1
+
+    for char in card_ranks:
+        if char == x[first_diff_idx]:
+            return 1
+        elif char == y[first_diff_idx]:
+            return -1
+        
+    return 0
+
 
 def hand_comparator(x: tuple[str, int], y: tuple[str, int]) -> int:
     x = x[0]
@@ -50,19 +63,8 @@ def hand_comparator(x: tuple[str, int], y: tuple[str, int]) -> int:
     
     # need to compare first card
     card_ranks = "AKQJT98765432"
-
-    first_diff_idx = 0
-    while x[first_diff_idx] == y[first_diff_idx]:
-        first_diff_idx += 1
-
-    for char in card_ranks:
-        if char == x[first_diff_idx]:
-            return 1
-        elif char == y[first_diff_idx]:
-            return -1
-        
-    return 0
-
+    return by_rank_comparator(x, y, card_ranks)
+    
 
 if __name__ == "__main__":
     hand_bids = []
