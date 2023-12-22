@@ -6,28 +6,6 @@ def empty_col(universe: list[list[str]], col: int) -> bool:
     return True
 
 
-def insert_empty_col(universe: list[list[str]], col: int) -> None:
-    for idx, row in enumerate(universe):
-        universe[idx] = row[0:col] + ["."] + row[col:]
-
-
-def expand_universe(universe: list[list[str]]) -> list[list[str]]:
-    result = []
-    for row in universe:
-        result.append(row)
-        if "#" not in row:
-            result.append(row)
-
-    ptr = 0 
-    while ptr < len(result[0]):
-        if empty_col(result, ptr):
-            insert_empty_col(result, ptr)
-            ptr += 1
-        ptr += 1
-
-    return result
-
-
 def parse_universe(filename: str) -> list[list[str]]:
     result = []
 
@@ -47,19 +25,48 @@ def galaxy_locs(universe: list[list[str]]) -> set[tuple[int, int]]:
     return result
 
 
-def paths_sum(universe: list[list[str]]) -> str:
+
+def empty_rows(universe: list[list[str]]) -> set[int]:
+    result = set()
+    for idx, row in enumerate(universe):
+        if "#" not in row:
+            result.add(idx)
+    
+    return result
+
+
+def empty_cols(universe: list[list[str]]) -> set[int]:
+    result = set()
+    for i in range(len(universe[0])):
+        if empty_col(universe, i):
+            result.add(i)
+    
+    return result
+
+
+def paths_sum(universe: list[list[str]], multiplier: int) -> int:
+    er = empty_rows(universe)
+    ec = empty_cols(universe)
+
     total = 0
     galaxies = galaxy_locs(universe)
 
     while galaxies:
         curr = galaxies.pop()
         for other in galaxies:
-            total += abs(curr[0] - other[0]) + abs(curr[1] - other[1])
+            # x
+            direction = 1 if curr[0] < other[0] else -1
+            for i in range(curr[0], other[0], direction):
+                total += multiplier if i in ec else 1
+
+            # y
+            direction = 1 if curr[1] < other[1] else -1
+            for j in range(curr[1], other[1], direction):
+                total += multiplier if j in er else 1
 
     return total
 
+
 if __name__ == "__main__":
     universe = parse_universe("input.txt")
-    universe = expand_universe(universe)
-
-    print(paths_sum(universe))
+    print(paths_sum(universe, 2))
