@@ -27,6 +27,7 @@ def calculate_load(grid: list[list[str]]) -> int:
         total += num_round_rocks * (len(grid) - i)
     return total
 
+
 if __name__ == "__main__":
     grid = parse_grid("input.txt")
     roll_rocks_north(grid)
