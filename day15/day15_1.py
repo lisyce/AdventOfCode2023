@@ -8,7 +8,7 @@ def HASH(x: str) -> int:
 
 
 if __name__ == "__main__":
-    with open("input.txt") as f:
+    with open("input_test.txt") as f:
         line = f.readline().strip()
 
     total = sum(HASH(x) for x in line.split(","))
